@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Common Errors</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h2>Common Errors & Solutions</h2>
+
+{% if errors %}
+    {% for e in errors %}
+        <div class="card">
+            <b>Error:</b> {{ e[0] }} <br><br>
+
+            <b>Solution:</b><br>
+            <pre>{{ e[1] }}</pre>
+
+            {% if e[2] %}
+                <br>
+                <a href="{{ e[2] }}" target="_blank" class="button">
+                    Watch Tutorial
+                </a>
+            {% endif %}
+        </div>
+        <br>
+    {% endfor %}
+{% else %}
+    <p>No errors added for this software.</p>
+{% endif %}
+
+<a href="/" class="button">Back to Home</a>
+
+</body>
+</html>

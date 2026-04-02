@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Software List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h2>Software for Selected Semester</h2>
+
+{% if software %}
+    {% for s in software %}
+        <div style="background:white;padding:20px;border-radius:10px;margin-bottom:20px;">
+
+            <h3>{{ s[1] }} - Version {{ s[2] }}</h3>
+
+            <a href="/installation/{{ s[0] }}" 
+               style="display:inline-block;padding:8px 15px;background:#28a745;color:white;text-decoration:none;border-radius:5px;margin-right:10px;">
+               Installation Guide
+            </a>
+
+            <a href="/errors/{{ s[0] }}" 
+               style="display:inline-block;padding:8px 15px;background:#007bff;color:white;text-decoration:none;border-radius:5px;">
+               Common Errors
+            </a>
+
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No software added for this semester yet.</p>
+{% endif %}
+
+<a href="/" class="button">Back</a>
+
+</body>
+</html>

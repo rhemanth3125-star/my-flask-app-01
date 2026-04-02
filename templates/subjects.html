@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Subjects</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h2>Subjects</h2>
+
+{% for s in subjects %}
+    <div>{{ s[0] }}</div>
+{% endfor %}
+
+<a href="/" class="button">Back</a>
+
+</body>
+</html>

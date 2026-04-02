@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Installation Guide</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h2 class="title">{{ data[0] }} - Installation Guide</h2>
+
+{% set sections = data[1].split("STEP") %}
+
+{% for section in sections %}
+    {% if section.strip() != "" %}
+        <div class="step-card">
+
+            <h3 class="step-heading">STEP {{ loop.index }}</h3>
+
+            <ul>
+                {% set lines = section.split('\n') %}
+                {% for line in lines %}
+                    {% set clean_line = line.strip() %}
+                    {% if clean_line != "" %}
+
+                        {% if clean_line.startswith('http') %}
+                            <li>
+                                <a href="{{ clean_line }}" target="_blank" class="download-link">
+                                    🔽 Download Here
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>{{ clean_line }}</li>
+                        {% endif %}
+
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+        </div>
+    {% endif %}
+{% endfor %}
+
+<br>
+<a href="/" class="button">Back to Home</a>
+
+</body>
+</html>

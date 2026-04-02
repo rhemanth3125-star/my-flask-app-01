@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Academic Software System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="home-page">
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='graduation.png') }}" alt="Logo">
+        <div class="logo-text">
+            <span class="main-title">Smart Academic</span>
+            <span class="sub-title">Software Tools & Support System</span>
+        </div>
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/subjects">Subjects</a></li>
+        <li><a href="/contact">Contact</a></li>
+       
+    </ul>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+
+    <div class="hero-left">
+        <h1>Find Your Academic Tools</h1>
+        <p>Select your year and semester.</p>
+
+        <div class="selection-card">
+            <form id="mainForm">
+
+                <select id="yearSelect" required>
+                    <option value="">Select Year</option>
+                    <option value="1">1st Year</option>
+                    <option value="2">2nd Year</option>
+                    <option value="3">3rd Year</option>
+                    <option value="4">4th Year</option>
+                </select>
+
+                <select id="semesterSelect" required>
+                    <option value="">Select Semester</option>
+                </select>
+
+                <button type="submit">Submit</button>
+
+            </form>
+        </div>
+    </div>
+
+</section>
+
+<script>
+const semesterData = {
+    1: [{id:1,name:"1-1"}, {id:2,name:"1-2"}],
+    2: [{id:3,name:"2-1"}, {id:4,name:"2-2"}],
+    3: [{id:5,name:"3-1"}, {id:6,name:"3-2"}],
+    4: [{id:7,name:"4-1"}, {id:8,name:"4-2"}]
+};
+
+const yearSelect = document.getElementById("yearSelect");
+const semesterSelect = document.getElementById("semesterSelect");
+
+yearSelect.addEventListener("change", function() {
+    semesterSelect.innerHTML = '<option value="">Select Semester</option>';
+    const year = this.value;
+
+    if (semesterData[year]) {
+        semesterData[year].forEach(function(sem) {
+            let option = document.createElement("option");
+            option.value = sem.id;
+            option.text = sem.name;
+            semesterSelect.appendChild(option);
+        });
+    }
+});
+
+document.getElementById("mainForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const semId = semesterSelect.value;
+
+    if(semId){
+        window.location.href = "/software/" + semId;
+    } else {
+        alert("Please select semester");
+    }
+});
+</script>
+
+</body>
+</html>
