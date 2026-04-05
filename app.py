@@ -1,20 +1,29 @@
 from flask import Flask, render_template
-import mysql.connector
 
 app = Flask(__name__)
 
-# ================= DATABASE CONNECTION =================
-try:
-    db = mysql.connector.connect(
-        host="localhost",   # will fail on Render but handled
-        user="root",
-        password="hemanth",
-        database="fieldproject"
-    )
-    print("Database Connected")
-except:
-    db = None
-    print("Database NOT connected")
+# ================= STATIC DATA =================
+
+software_data = [
+    (1, "CodeBlocks (Data Structures)", "20.03", 1),
+    (2, "MySQL", "8.0", 1),
+    (3, "Java JDK", "21", 1),
+    (4, "Logisim (DLD Tool)", "2.7", 1)
+]
+
+errors_data = {
+    1: [("Compiler Error", "Check compiler settings", "#")],
+    2: [("Connection Error", "Check MySQL service", "#")],
+    3: [("JDK Not Found", "Set JAVA_HOME properly", "#")],
+    4: [("Circuit Error", "Check connections", "#")]
+}
+
+installation_data = {
+    1: ("CodeBlocks (Data Structures)", "Step 1: Download CodeBlocks\nStep 2: Install\nStep 3: Run"),
+    2: ("MySQL", "Step 1: Download MySQL\nStep 2: Install\nStep 3: Configure"),
+    3: ("Java JDK", "Step 1: Download JDK\nStep 2: Install\nStep 3: Set Path"),
+    4: ("Logisim", "Step 1: Download Logisim\nStep 2: Run .jar file")
+}
 
 # ================= HOME =================
 @app.route('/')
@@ -24,24 +33,15 @@ def home():
 # ================= SUBJECTS =================
 @app.route('/subjects')
 def subjects():
-    if db:
-        cursor = db.cursor()
-        cursor.execute("SELECT software_id, software_name, version FROM software")
-        software = cursor.fetchall()
-    else:
-        software = [(1, "Demo Software", "1.0")]  # fallback data
-    return render_template('software.html', software=software)
+    return render_template('software.html', software=software_data)
 
 # ================= TROUBLESHOOT =================
 @app.route('/troubleshoot')
 def troubleshoot():
-    if db:
-        cursor = db.cursor()
-        cursor.execute("SELECT error_message, solution, youtube_link FROM errors")
-        errors = cursor.fetchall()
-    else:
-        errors = [("Sample Error", "Sample Solution", "#")]
-    return render_template('errors.html', errors=errors)
+    all_errors = []
+    for e in errors_data.values():
+        all_errors.extend(e)
+    return render_template('errors.html', errors=all_errors)
 
 # ================= CONTACT =================
 @app.route('/contact')
@@ -51,43 +51,19 @@ def contact():
 # ================= SEMESTER SOFTWARE =================
 @app.route('/software/<int:semester_id>')
 def show_software(semester_id):
-    if db:
-        cursor = db.cursor()
-        cursor.execute(
-            "SELECT software_id, software_name, version FROM software WHERE semester_id = %s",
-            (semester_id,)
-        )
-        software = cursor.fetchall()
-    else:
-        software = [(1, "Demo Software", "1.0")]
-    return render_template("software.html", software=software)
+    filtered = [s[:3] for s in software_data if s[3] == semester_id]
+    return render_template("software.html", software=filtered)
 
 # ================= ERRORS =================
 @app.route('/errors/<int:software_id>')
 def show_errors(software_id):
-    if db:
-        cursor = db.cursor()
-        cursor.execute(
-            "SELECT error_message, solution, youtube_link FROM errors WHERE software_id = %s",
-            (software_id,)
-        )
-        errors = cursor.fetchall()
-    else:
-        errors = [("Sample Error", "Sample Solution", "#")]
+    errors = errors_data.get(software_id, [])
     return render_template("errors.html", errors=errors)
 
 # ================= INSTALLATION =================
 @app.route('/installation/<int:software_id>')
 def show_installation(software_id):
-    if db:
-        cursor = db.cursor()
-        cursor.execute(
-            "SELECT software_name, installation_steps FROM software WHERE software_id = %s",
-            (software_id,)
-        )
-        data = cursor.fetchone()
-    else:
-        data = ("Demo Software", "Step 1: Install\nStep 2: Run")
+    data = installation_data.get(software_id, ("Demo Software", "No data available"))
     return render_template("installation.html", data=data)
 
 # ================= RUN =================
