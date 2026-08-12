@@ -232,3 +232,407 @@ a:hover {
 .selection-card button:hover {
     opacity: 0.9;
 }
+
+/* Software page styling */
+:root {
+    --page-bg: #e8eef7;
+    --surface: rgba(255, 255, 255, 0.98);
+    --border: rgba(15, 23, 42, 0.08);
+    --shadow: 0 18px 50px rgba(15, 23, 42, 0.09);
+    --text: #102a43;
+    --muted: #475569;
+    --accent: #1f3c88;
+    --action: #1f60d0;
+    --neutral: #f8fafc;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    background: radial-gradient(circle at top left, rgba(27, 110, 208, 0.12), transparent 28%),
+        linear-gradient(180deg, #f4f7fb 0%, var(--page-bg) 100%);
+    color: var(--text);
+}
+
+.page-wrapper {
+    max-width: 960px;
+    margin: 32px auto 48px;
+    padding: 28px;
+    background: var(--surface);
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 24px 80px rgba(15, 23, 42, 0.09);
+}
+
+.page-header {
+    text-align: center;
+    margin: 0 0 28px;
+    font-size: clamp(2rem, 2.4vw, 2.6rem);
+    letter-spacing: -0.04em;
+    color: var(--accent);
+}
+
+.software-list {
+    display: grid;
+    gap: 22px;
+}
+
+.software-card {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 30px 32px;
+    box-shadow: var(--shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    overflow: hidden;
+}
+
+.software-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--accent), #0073d1);
+    border-radius: 0 0 12px 0;
+}
+
+.software-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 30px 80px rgba(15, 23, 42, 0.14);
+}
+
+.software-card h3 {
+    margin: 0;
+    font-size: 1.55rem;
+    line-height: 1.2;
+    color: var(--text);
+}
+
+.software-version {
+    display: inline-block;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 0.98rem;
+    font-weight: 500;
+}
+
+.software-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.install-btn,
+.error-btn,
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    padding: 14px 26px;
+    font-size: 0.98rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.install-btn {
+    background: linear-gradient(90deg, #1b6ed0, #0f5cc0);
+    color: #ffffff;
+    box-shadow: 0 12px 28px rgba(27, 110, 208, 0.18);
+}
+
+.install-btn:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(90deg, #1757b0, #0b4da0);
+}
+
+.error-btn {
+    background: var(--neutral);
+    color: var(--text);
+    border: 1px solid #d9e2ef;
+}
+
+.error-btn:hover {
+    transform: translateY(-1px);
+    background: #e8eff8;
+}
+
+.page-footer {
+    margin-top: 32px;
+    text-align: center;
+}
+
+a.button {
+    display: inline-flex;
+    padding: 14px 30px;
+    background-color: var(--accent);
+    color: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 14px 32px rgba(31, 60, 136, 0.18);
+}
+
+a.button:hover {
+    transform: translateY(-1px);
+    background-color: #0f2b66;
+}
+
+.search-panel {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.search-panel label {
+    font-size: 0.95rem;
+    color: #475569;
+    font-weight: 600;
+}
+
+.search-box {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 16px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    font-size: 1rem;
+    color: #102a43;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-button {
+    border: none;
+    border-radius: 16px;
+    padding: 14px 22px;
+    background: linear-gradient(90deg, #1b6ed0, #0f5cc0);
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(27, 110, 208, 0.18);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.search-button:hover {
+    transform: translateY(-1px);
+    background: linear-gradient(90deg, #1757b0, #0b4da0);
+}
+
+.search-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    color: #475569;
+    font-size: 0.95rem;
+}
+
+.search-suggestions span {
+    font-weight: 600;
+}
+
+.suggestion-chip {
+    cursor: pointer;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #102a43;
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.suggestion-chip:hover {
+    background: #f3f7ff;
+    border-color: #a7c3f1;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+    .search-box {
+        grid-template-columns: 1fr;
+    }
+
+    .search-suggestions {
+        gap: 8px;
+    }
+}
+
+.search-input:focus {
+    border-color: #1f3c88;
+    box-shadow: 0 0 0 4px rgba(31, 60, 136, 0.12);
+}
+
+.chat-panel {
+    background: #f8fbff;
+    border-radius: 24px;
+    padding: 24px;
+    border: 1px solid rgba(28, 76, 146, 0.12);
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+    margin-bottom: 28px;
+}
+
+.chat-header {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #102a43;
+    margin-bottom: 18px;
+}
+
+.chat-messages {
+    display: grid;
+    gap: 14px;
+    max-height: 420px;
+    overflow-y: auto;
+    padding-bottom: 8px;
+    margin-bottom: 18px;
+}
+
+.chat-message {
+    padding: 16px 18px;
+    border-radius: 18px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+}
+
+.user-message {
+    align-self: flex-end;
+    background: #1b6ed0;
+    color: white;
+    max-width: 90%;
+}
+
+.bot-message {
+    background: #ffffff;
+    color: #102a43;
+    border: 1px solid rgba(203, 213, 225, 0.9);
+    max-width: 90%;
+}
+
+.system-message {
+    background: #eef4ff;
+    color: #475569;
+    border: 1px solid rgba(177, 199, 238, 0.8);
+    max-width: 90%;
+}
+
+.chat-form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+}
+
+.chat-input {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 16px;
+    border: 1px solid #cbd5e1;
+    font-size: 1rem;
+    background: #ffffff;
+    color: #102a43;
+}
+
+.chat-submit {
+    border: none;
+    border-radius: 16px;
+    background: #1f3c88;
+    color: white;
+    padding: 14px 22px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.chat-submit:hover {
+    transform: translateY(-1px);
+    background: #112a66;
+}
+
+@media (max-width: 640px) {
+    .chat-form {
+        grid-template-columns: 1fr;
+    }
+}
+
+.error-list {
+    display: grid;
+    gap: 18px;
+}
+
+.error-card {
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 26px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+}
+
+.error-label,
+.solution-label {
+    color: #1f3c88;
+    font-size: 0.98rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.error-text {
+    font-size: 1.05rem;
+    color: #102a43;
+    margin-bottom: 18px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.solution-text {
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 18px;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+    line-height: 1.7;
+    margin-bottom: 18px;
+}
+
+.no-results,
+.empty-state {
+    color: #475569;
+    text-align: center;
+    font-size: 1rem;
+    margin-top: 18px;
+}
+
+@media (max-width: 780px) {
+    .page-wrapper {
+        margin: 20px 16px 36px;
+        padding: 24px;
+    }
+
+    .software-card {
+        padding: 24px;
+    }
+
+    .software-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .install-btn,
+    .error-btn,
+    a.button {
+        width: 100%;
+    }
+}
+

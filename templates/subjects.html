@@ -4,15 +4,64 @@
     <title>Subjects</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
 
-<h2>Subjects</h2>
+<body class="home-page">
 
-{% for s in subjects %}
-    <div>{{ s[0] }}</div>
-{% endfor %}
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="logo">
+        <img src="{{ url_for('static', filename='graduation.png') }}">
+        <div class="logo-text">
+            <span class="main-title">Smart Academic</span>
+            <span class="sub-title">Software Tools & Support System</span>
+        </div>
+    </div>
 
-<a href="/" class="button">Back</a>
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/subjects">Subjects</a></li>
+        <li><a href="/contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- Content -->
+<section class="hero">
+
+    <div class="hero-left">
+        <h1>Subjects</h1>
+
+        <div class="selection-card">
+
+            <table style="width:100%; border-collapse: collapse; margin-top:10px;">
+
+    <tr style="background:#1f3c88; color:white;">
+        <th style="padding:12px; text-align:left;">Subject Name</th>
+        <th style="padding:12px; text-align:left;">Semester</th>
+    </tr>
+
+    {% for s in subjects %}
+   <tr style="border-bottom:1px solid #ddd;"
+    onmouseover="this.style.background='#f5f7fb'"
+    onmouseout="this.style.background='white'">
+        <td style="padding:12px;">{{ s[0] }}</td>
+        <td style="padding:12px;">Semester {{ s[1] }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+        </div>
+    </div>
+
+    <div class="hero-right">
+        <img src="{{ url_for('static', filename='hero-bg.png') }}">
+    </div>
+
+</section>
+
+<div class="page-footer" style="text-align:center; margin: 24px 0;">
+    <a href="/" class="button" onclick="if (document.referrer) { history.back(); return false; }">Back</a>
+</div>
 
 </body>
 </html>

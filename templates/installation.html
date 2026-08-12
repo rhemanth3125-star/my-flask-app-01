@@ -4,25 +4,27 @@
     <title>Installation Guide</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+
+<body class="home-page">
 
 <h2 class="title">{{ data[0] }} - Installation Guide</h2>
 
-{% set sections = data[1].split("STEP") %}
+{% set sections = data[1].split('STEP ') %}
 
 {% for section in sections %}
     {% if section.strip() != "" %}
-        <div class="step-card">
+        {% set lines = section.strip().split('\n') %}
+        {% set step_number = lines[0].strip() if lines else '' %}
 
-            <h3 class="step-heading">STEP {{ loop.index }}</h3>
+        <div class="step-card">
+            <h3 class="step-heading">STEP {{ step_number }}</h3>
 
             <ul>
-                {% set lines = section.split('\n') %}
-                {% for line in lines %}
+                {% for line in lines[1:] %}
                     {% set clean_line = line.strip() %}
-                    {% if clean_line != "" %}
 
-                        {% if clean_line.startswith('http') %}
+                    {% if clean_line != "" %}
+                        {% if 'http' in clean_line %}
                             <li>
                                 <a href="{{ clean_line }}" target="_blank" class="download-link">
                                     🔽 Download Here
@@ -31,17 +33,16 @@
                         {% else %}
                             <li>{{ clean_line }}</li>
                         {% endif %}
-
                     {% endif %}
                 {% endfor %}
             </ul>
-
         </div>
     {% endif %}
 {% endfor %}
 
 <br>
-<a href="/" class="button">Back to Home</a>
+
+<a href="/" class="button" onclick="if (document.referrer) { history.back(); return false; }">Back</a>
 
 </body>
 </html>

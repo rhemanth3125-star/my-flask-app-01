@@ -5,31 +5,101 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <main class="page-wrapper">
+        <header class="page-header">Common Errors & Solutions</header>
 
-<h2>Common Errors & Solutions</h2>
+        <section class="chat-panel">
+            <div class="chat-header">AI Error Helper</div>
+            <div id="chatMessages" class="chat-messages"></div>
+            <form id="chatForm" class="chat-form">
+                <input id="chatInput" class="chat-input" type="text" placeholder="Ask about a specific error or solution..." autocomplete="off" required>
+                <button type="submit" class="chat-submit">Send</button>
+            </form>
+        </section>
 
-{% if errors %}
-    {% for e in errors %}
-        <div class="card">
-            <b>Error:</b> {{ e[0] }} <br><br>
-
-            <b>Solution:</b><br>
-            <pre>{{ e[1] }}</pre>
-
-            {% if e[2] %}
-                <br>
-                <a href="{{ e[2] }}" target="_blank" class="button">
-                    Watch Tutorial
-                </a>
-            {% endif %}
+        <div class="page-footer">
+            <a href="/" class="button" onclick="if (document.referrer) { history.back(); return false; }">Back</a>
         </div>
-        <br>
-    {% endfor %}
-{% else %}
-    <p>No errors added for this software.</p>
-{% endif %}
+    </main>
 
-<a href="/" class="button">Back to Home</a>
+    <script>
+        const chatForm = document.getElementById('chatForm');
+        const chatInput = document.getElementById('chatInput');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatUrl = `/errors/{{ software_id }}/chat`;
+        const storageKey = `errors_chat_history_{{ software_id }}`;
 
+        const appendChatMessage = (role, text) => {
+            const message = document.createElement('div');
+            message.className = `chat-message ${role}-message`;
+            message.textContent = text;
+            chatMessages.appendChild(message);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        };
+
+        const saveChatHistory = () => {
+            const messages = Array.from(chatMessages.children).map(node => ({
+                role: node.classList.contains('user-message') ? 'user' : node.classList.contains('bot-message') ? 'bot' : 'system',
+                text: node.textContent
+            }));
+            localStorage.setItem(storageKey, JSON.stringify(messages));
+        };
+
+        const loadChatHistory = () => {
+            const stored = localStorage.getItem(storageKey);
+            if (!stored) {
+                appendChatMessage('system', 'Ask about the current common errors and I will respond with the best matching details.');
+                return;
+            }
+            try {
+                const messages = JSON.parse(stored);
+                messages.forEach(msg => {
+                    const role = msg.role === 'user' ? 'user' : msg.role === 'bot' ? 'bot' : 'system';
+                    appendChatMessage(role, msg.text);
+                });
+            } catch (error) {
+                appendChatMessage('system', 'Ask about the current common errors and I will respond with the best matching details.');
+            }
+        };
+
+        if (chatForm) {
+            chatForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const question = chatInput.value.trim();
+                if (!question) return;
+
+                appendChatMessage('user', question);
+                saveChatHistory();
+                chatInput.value = '';
+                appendChatMessage('system', 'Thinking...');
+
+                try {
+                    const response = await fetch(chatUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ question })
+                    });
+                    const result = await response.json();
+                    const lastMessage = chatMessages.querySelector('.system-message:last-child');
+                    if (lastMessage) {
+                        lastMessage.remove();
+                    }
+                    appendChatMessage('bot', result.response || 'Sorry, I could not get an answer.');
+                    saveChatHistory();
+                } catch (error) {
+                    const lastMessage = chatMessages.querySelector('.system-message:last-child');
+                    if (lastMessage) {
+                        lastMessage.remove();
+                    }
+                    appendChatMessage('bot', 'Unable to connect to the helper. Please try again.');
+                    saveChatHistory();
+                }
+            });
+        }
+
+        loadChatHistory();
+    </script>
 </body>
 </html>
