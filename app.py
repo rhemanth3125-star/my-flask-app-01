@@ -416,7 +416,7 @@ def show_installation(software_id):
     if data is None:
 
         return render_db_error(
-            "Installation guide was not found for this software."
+            "Installation guide was not found for this software ss."
         )
 
 
